@@ -28,16 +28,16 @@ The release evidence chain is the ordered set of records that justify a public c
 
 | Link | Status on 2026-07-22 |
 |---|---|
-| 1 Revision anchor | Missing — repository has no commits yet |
+| 1 Revision anchor | Initial revision exists; the next release subject still needs a clean, recorded SHA |
 | 2 Structure and contract | Passing locally |
 | 3 Stable templates | Local baselines recorded; hosted CI not yet anchored |
 | 4 Host behavior | Zero archived run records |
-| 5 Fresh install | Not recorded |
+| 5 Fresh install | Codex local-copy check is partial and unanchored; no fresh install is recorded |
 | 6 Publication authorization | Not granted |
 
 ## How to advance the chain
 
-1. Complete the first commit inventory review in [FIRST-COMMIT-INVENTORY.md](FIRST-COMMIT-INVENTORY.md), then create the initial commit when explicitly authorized.
+1. Review and commit the current changes when explicitly authorized, then record the full clean SHA used by later evidence.
 2. Push to a remote and record hosted CI results in [hosted-ci.md](evidence/hosted-ci.md).
 3. Install on each claimed surface and fill [fresh-install.md](evidence/fresh-install.md).
 4. Run the twelve fixtures on each claimed host; archive records under `evals/runs/` per [EVALUATION-EVIDENCE.md](EVALUATION-EVIDENCE.md).

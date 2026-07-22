@@ -1,8 +1,8 @@
-# First Commit Inventory Review
+# Initial Import Inventory (Historical)
 
-Reviewed: **2026-07-22**. Scope: prepare the initial Git commit for `material3-compliance-skill`. This document authorizes **inventory classification only**; it does **not** authorize creating the commit.
+Reviewed: **2026-07-22**. The initial import now exists as commit `f3047fd4694be1550decb92ef5ce40909414e39f`. This file records what that import was intended to contain; it is historical context, not a claim that the repository is still pre-history and not authorization for later commits.
 
-## Recommended commit message (when authorized)
+## Recorded commit message
 
 ```text
 Initial import of Material 3 Build + Audit skill package.
@@ -12,7 +12,7 @@ evaluation fixtures, and the release evidence chain without claiming
 hosted CI or host behavior passes.
 ```
 
-## Include in first commit
+## Included in the initial import
 
 ### Repository meta
 
@@ -74,17 +74,17 @@ Lockfiles (`pubspec.lock`, `package-lock.json`) are intentionally included so ba
 | `tests/test_m3_scan.py` | Scanner unit tests |
 | `tests/test_eval_run_validator.py` | Run-validator unit tests |
 
-## Exclude from first commit
+## Excluded from the initial import
 
 | Path / pattern | Why |
 |---|---|
 | `**/node_modules/`, `**/build/`, `**/.gradle/`, `**/.dart_tool/`, `**/dist/` | Generated; covered by `.gitignore` |
 | `__pycache__/`, `*.pyc`, IDE folders, OS junk | Local noise |
-| Real `evals/runs/*.json` behavior archives | Cannot be revision-anchored before history exists; add after first commit + real runs |
+| Real `evals/runs/*.json` behavior archives | Add only after a clean subject revision exists and real runs are complete |
 | Secrets, tokens, private model transcripts | None expected; never add |
 | Personal `~/.cursor/skills/material3-design` | Outside this repo; sync after commit if desired |
 
-## Defer to later commits (not first-commit blockers)
+## Deferred after the initial import
 
 | Item | Trigger |
 |---|---|
@@ -94,9 +94,9 @@ Lockfiles (`pubspec.lock`, `package-lock.json`) are intentionally included so ba
 | Tag `v0.1.0` | Only after [RELEASE_CHECKLIST.md](../RELEASE_CHECKLIST.md) and explicit authorization |
 | Publish marketplace / `npx skills` | Only after public repo + install evidence |
 
-## Pre-commit verification (local)
+## Verification commands
 
-Run from the repository root after staging:
+Run from the repository root after changes and before later commits:
 
 ```bash
 python -m unittest discover -s tests -p "test_*.py"
@@ -107,14 +107,15 @@ python tests/validate_repository.py
 
 Optional if toolchains are available: re-run the three template command sets recorded in [local-verification.md](evidence/local-verification.md).
 
-Expected honest state after the first commit: links 1–2 of the evidence chain become possible; links 3 (hosted), 4, 5, and 6 remain open.
+Current honest state: an initial revision exists, structural checks pass locally, and hosted CI, behavior, complete fresh-install, and release-authorization links remain open.
 
 ## Review verdict
 
 | Question | Answer |
 |---|---|
-| Safe to stage the Include set? | Yes — no secrets found; lockfiles are intentional |
-| Any must-fix before commit? | No structural blockers; evidence ledgers correctly report pending hosted/behavior/install proof |
-| Authorize commit now? | **No** — wait for an explicit user request to create the commit |
+| Initial import recorded? | Yes — `f3047fd4694be1550decb92ef5ce40909414e39f` |
+| Safe repository contents? | Yes — no secrets found; lockfiles are intentional |
+| Remaining evidence gaps? | Hosted CI, behavior runs, and complete fresh-install proof remain pending |
+| Authorize later commits? | This historical inventory does not; use an explicit user request |
 
-When ready, ask to create the first commit; do not treat this inventory as publication or tag approval.
+Do not treat the initial import or this inventory as publication or tag approval.

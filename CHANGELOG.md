@@ -14,3 +14,6 @@ All notable changes are recorded here. The project has not been tagged or publis
 - Added explicit critical fixture assertions, revision-anchored run-record schema/validation, and separate capability/evidence documentation.
 - Added CI, dependency-update configuration, Claude metadata, and release gates.
 - Added the six-link release evidence chain, local/hosted/install ledgers, and first-commit inventory review.
+- Corrected post-import evidence status, Flutter local-verification claims, Codex install paths, and development-time Claude version handling.
+- Pinned every GitHub Action to a verified full commit SHA while retaining major-version comments for dependency automation.
+- Passed the official Claude marketplace validator with the documented development-version warning and added deterministic metadata checks.

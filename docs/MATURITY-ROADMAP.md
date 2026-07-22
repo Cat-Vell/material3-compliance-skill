@@ -26,7 +26,7 @@ Last implementation review: **2026-07-22**.
 Track progress in [RELEASE-EVIDENCE-CHAIN.md](RELEASE-EVIDENCE-CHAIN.md) and the ledgers under [evidence/](evidence/).
 
 - Green hosted Compose build/test on its pinned baseline (local build/test passed 2026-07-22)
-- Green hosted Flutter format/analyze/test on its pinned baseline (local analysis/tests passed 2026-07-22)
+- Green hosted Flutter format/analyze/test on its pinned baseline (local format, `dart analyze`, and tests passed 2026-07-22; `flutter analyze` remains pending)
 - Green clean Web install/build/test/accessibility smoke (local checks passed 2026-07-22)
 - Recorded Codex and Claude behavior runs when support for both is claimed
 - Fresh-install results for every distribution surface being claimed
@@ -34,7 +34,7 @@ Track progress in [RELEASE-EVIDENCE-CHAIN.md](RELEASE-EVIDENCE-CHAIN.md) and the
 
 Do not tag a documentation-only or configuration-only baseline. Local evidence promotes a template to a tested baseline; hosted release CI must independently rerun it and record release evidence.
 
-Current behavior evidence count is zero. Fixture presence and schema validation do not satisfy the host-evaluation gate; version-tag CI requires all twelve revision-anchored records for both Codex and Claude. The first-commit inventory is reviewed in [FIRST-COMMIT-INVENTORY.md](FIRST-COMMIT-INVENTORY.md); creating that commit still requires explicit authorization.
+Current behavior evidence count is zero. Fixture presence and schema validation do not satisfy the host-evaluation gate; version-tag CI requires all twelve revision-anchored records for both Codex and Claude. The initial import exists in Git history; every later evidence record must point to the exact clean revision it evaluated.
 
 ## Public v0.1.0 gate
 
@@ -56,4 +56,3 @@ Current behavior evidence count is zero. Fixture presence and schema validation 
 - Review volatile source entries and template baselines monthly or before release, whichever comes first.
 - Let dependency automation propose changes; merge only after first-party source review and affected builds/tests pass.
 - Keep experimental/Expressive examples outside stable cores until promoted and re-verified.
-- Maintain an internal dated competitive benchmark; do not copy or publicly depend on competitor prose/examples.

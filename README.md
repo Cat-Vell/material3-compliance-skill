@@ -36,12 +36,14 @@ Build coverage includes:
 Copy or link `skills/material3-design` to the skill directory used by the assistant:
 
 ```text
-~/.codex/skills/material3-design
+$CODEX_HOME/skills/material3-design       # Codex installer-managed user skill
+$HOME/.agents/skills/material3-design     # Codex user authoring/discovery
+<repo>/.agents/skills/material3-design    # Codex repository scope
 ~/.cursor/skills/material3-design
 ~/.claude/skills/material3-design
 ```
 
-Keep the folder name `material3-design`. After this repository is published, it can also be installed with a compatible skill installer using the repository URL; no public owner or release is claimed by this working tree.
+Keep the folder name `material3-design`. `CODEX_HOME` defaults to `~/.codex`; Codex also scans the documented `.agents/skills` authoring locations. After this repository is published, it can be installed with a compatible skill installer using the repository URL; no public owner or release is claimed by this working tree.
 
 ## Examples
 
@@ -110,15 +112,15 @@ python tests/validate_eval_runs.py
 python tests/validate_repository.py
 ```
 
-Template release checks are:
+Template local checks used for the recorded baselines are:
 
 ```bash
 gradle testDebugUnitTest assembleDebug  # from compose-core
-dart format --set-exit-if-changed . && flutter analyze && flutter test  # flutter-core
+dart format --output=none --set-exit-if-changed . && dart analyze && flutter test --no-pub  # flutter-core
 npm ci && npm run build && npm test  # web-core
 ```
 
-Pinned versions are tested baselines, never “latest.” All three local build/test paths passed on 2026-07-22; release CI must rerun them and record the evidence. See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+Pinned versions are tested baselines, never “latest.” Compose and Web checks passed locally on 2026-07-22. Flutter formatting, `dart analyze`, and two widget tests passed; the `flutter analyze` wrapper failed in the non-ASCII Windows path and remains a hosted-CI requirement. Release CI must rerun every platform path and record the evidence. See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
 
 Fixture validation proves only that evaluation contracts are well formed. There are currently zero archived host run records, so this repository does not claim stable Codex, Claude, or Cursor behavior. See the [release evidence chain](docs/RELEASE-EVIDENCE-CHAIN.md), [capability matrix](docs/CAPABILITY-MATRIX.md), and [evaluation evidence guide](docs/EVALUATION-EVIDENCE.md).
 

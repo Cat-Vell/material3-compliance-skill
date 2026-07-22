@@ -192,11 +192,30 @@ def validate_templates_and_metadata(errors: list[str]) -> None:
                 errors.append(f'{template}: baseline must require release verification')
             if 'latest' in baseline.get('label', '').lower():
                 errors.append(f'{template}: baseline label must not claim latest')
-    for path in (ROOT / '.claude-plugin' / 'plugin.json', ROOT / '.claude-plugin' / 'marketplace.json'):
+    claude_paths = (ROOT / '.claude-plugin' / 'plugin.json', ROOT / '.claude-plugin' / 'marketplace.json')
+    for path in claude_paths:
         try:
             json.loads(path.read_text(encoding='utf-8'))
         except (OSError, json.JSONDecodeError) as exc:
             errors.append(f'invalid Claude metadata {path.name}: {exc}')
+    try:
+        plugin = json.loads(claude_paths[0].read_text(encoding='utf-8'))
+        marketplace = json.loads(claude_paths[1].read_text(encoding='utf-8'))
+        entries = marketplace.get('plugins', [])
+        if plugin.get('name') != 'material3-design':
+            errors.append('Claude plugin name must be material3-design')
+        if len(entries) != 1 or entries[0].get('name') != 'material3-design':
+            errors.append('Claude marketplace must contain exactly the material3-design entry')
+        elif (
+            entries[0].get('source') != './'
+            or entries[0].get('strict') is not False
+            or entries[0].get('skills') != ['./skills/material3-design']
+        ):
+            errors.append('Claude marketplace source/strict/skills mapping is invalid')
+        if plugin.get('version') and entries and entries[0].get('version'):
+            errors.append('Claude version must not be duplicated in plugin and marketplace metadata')
+    except (OSError, json.JSONDecodeError, AttributeError) as exc:
+        errors.append(f'cannot validate Claude metadata contract: {exc}')
     try:
         json.loads((ROOT / 'evals' / 'run-record.schema.json').read_text(encoding='utf-8'))
     except (OSError, json.JSONDecodeError) as exc:
@@ -204,6 +223,16 @@ def validate_templates_and_metadata(errors: list[str]) -> None:
     metadata = (SKILL / 'agents' / 'openai.yaml').read_text(encoding='utf-8')
     if '$material3-design' not in metadata or 'Build + Audit' not in metadata:
         errors.append('agents/openai.yaml must match the Build + Audit runtime skill')
+
+
+def validate_ci_security(errors: list[str]) -> None:
+    workflow = (ROOT / '.github' / 'workflows' / 'ci.yml').read_text(encoding='utf-8')
+    action_refs = re.findall(r'^\s*- uses:\s+([^@\s]+)@([^\s#]+)', workflow, flags=re.MULTILINE)
+    if not action_refs:
+        errors.append('CI workflow must contain action references')
+    for action, ref in action_refs:
+        if not re.fullmatch(r'[0-9a-f]{40}', ref):
+            errors.append(f'CI action must use a full commit SHA: {action}@{ref}')
 
 
 def main() -> int:
@@ -216,6 +245,7 @@ def main() -> int:
         validate_catalog(errors)
         validate_audit_and_scanner(errors)
         validate_templates_and_metadata(errors)
+        validate_ci_security(errors)
     if errors:
         for error in errors:
             print(f'ERROR: {error}')

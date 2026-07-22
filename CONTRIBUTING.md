@@ -26,6 +26,7 @@ Follow [content-ownership.md](skills/material3-design/references/content-ownersh
 - Label stable, verify-current, custom fallback, or refuse explicitly.
 - Never call a dependency “latest”; template versions are tested baselines only after green build evidence.
 - Do not copy third-party skill prose or examples.
+- During unreleased Claude-plugin development, omit an explicit version so Git SHA identifies updates. For a release, set SemVer in `.claude-plugin/plugin.json` only, bump it for every release, and do not duplicate it in the marketplace entry.
 
 ## Runtime constraints
 
