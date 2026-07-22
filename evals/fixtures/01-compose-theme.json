@@ -1,0 +1,17 @@
+{
+  "id": "compose-theme",
+  "mode": "build",
+  "platform": "compose",
+  "task": "theme",
+  "input_evidence": ["Android Compose app with brand seed and existing version catalog"],
+  "required_assertions": ["complete static light and dark schemes", "Dynamic Color is gated to Android 12+", "static fallback remains available", "typography and shapes are wired"],
+  "critical_assertion_indexes": [0, 1, 2],
+  "forbidden_claims": ["invented latest BOM", "Dynamic Color works on every Android version", "unverified Expressive API"],
+  "required_files": ["theme Kotlin file", "theme verification test or explicit project check"],
+  "dimensions": ["D01", "D06", "D09", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["dependency source/date", "light/dark/dynamic/fallback paths"],
+  "severity_requirements": ["unverified shipped API is release-blocking"]
+}

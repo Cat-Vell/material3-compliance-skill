@@ -1,0 +1,9 @@
+{
+  "label": "tested baseline",
+  "source_verified": "2026-07-22",
+  "release_verification_required": true,
+  "local_verification": "Node 24.18.0 / npm 11.16.0: clean install, build, 2 unit tests, and 6 a11y smoke checks passed 2026-07-22",
+  "node": "24.18.0 LTS",
+  "runtime_dependencies": 0,
+  "material_web_policy": "add only verified exported elements"
+}

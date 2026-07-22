@@ -1,0 +1,17 @@
+{
+  "id": "audit-flutter",
+  "mode": "audit",
+  "platform": "flutter",
+  "task": "audit",
+  "input_evidence": ["ThemeData with light scheme only", "legacy BottomNavigationBar", "widget tests for happy path", "no keyboard or large-text evidence"],
+  "required_assertions": ["D01-D10 IDs", "dark theme is Unknown", "migration gap is D04/D10", "keyboard and font scale remain Unknown", "release gate and coverage are explicit"],
+  "critical_assertion_indexes": [0, 1, 3, 4],
+  "forbidden_claims": ["ThemeData proves dark scheme", "tests prove accessibility without semantics evidence", "legacy navigation is automatically M3"],
+  "required_files": [],
+  "dimensions": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"],
+  "expected_unknown": ["D05", "D06", "D09"],
+  "expected_na": [],
+  "expected_release_gates": ["evidence is insufficient for a critical release criterion"],
+  "evidence_requirements": ["widget/file references", "Unknown rationale"],
+  "severity_requirements": ["navigation migration is Must-fix when M3 release is claimed"]
+}

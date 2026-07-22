@@ -1,0 +1,17 @@
+{
+  "id": "compose-accessible-form",
+  "mode": "build",
+  "platform": "compose",
+  "task": "component",
+  "input_evidence": ["Sign-up fields, validation rules, async submit behavior"],
+  "required_assertions": ["state is hoisted/restorable", "persistent labels and recovery text", "duplicate submit is prevented", "focus and IME behavior are specified", "semantics tests cover errors"],
+  "critical_assertion_indexes": [0, 1, 2, 4],
+  "forbidden_claims": ["placeholder is an accessible label", "color-only validation", "disabled means inaccessible explanation"],
+  "required_files": ["form composable", "state holder", "Compose UI or state tests"],
+  "dimensions": ["D03", "D06", "D07", "D08", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["loading/error/success transitions", "accessible names and error evidence"],
+  "severity_requirements": ["blocked TalkBack or keyboard completion is release-blocking"]
+}

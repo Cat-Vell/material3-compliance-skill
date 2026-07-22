@@ -1,0 +1,19 @@
+{
+  "name": "material3-build-audit",
+  "owner": {
+    "name": "Material 3 Build + Audit contributors"
+  },
+  "metadata": {
+    "description": "Portable Material 3 Design, Build, and Audit workflows."
+  },
+  "plugins": [
+    {
+      "name": "material3-design",
+      "source": "./",
+      "description": "Production-oriented Material 3 implementation and evidence-based audits.",
+      "version": "0.1.0",
+      "strict": false,
+      "skills": ["./skills/material3-design"]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/material3-design/run-record.schema.json",
+  "title": "Material 3 behavior evaluation run record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "fixture_id",
+    "fixture_sha256",
+    "git_revision",
+    "working_tree_clean",
+    "host",
+    "host_version",
+    "model",
+    "started_at",
+    "completed_at",
+    "prompt_artifact",
+    "response_artifact",
+    "assertions",
+    "forbidden_claims",
+    "generated_files",
+    "test_output",
+    "human_deviations",
+    "reviewer",
+    "result"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "fixture_id": {"type": "string", "minLength": 1},
+    "fixture_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "git_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "working_tree_clean": {"const": true},
+    "host": {"type": "string", "minLength": 1},
+    "host_version": {"type": "string", "minLength": 1},
+    "model": {"type": "string", "minLength": 1},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "prompt_artifact": {"type": "string", "minLength": 1},
+    "response_artifact": {"type": "string", "minLength": 1},
+    "assertions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "assertion", "critical", "passed", "evidence"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "assertion": {"type": "string", "minLength": 1},
+          "critical": {"type": "boolean"},
+          "passed": {"type": "boolean"},
+          "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "forbidden_claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "observed", "evidence"],
+        "properties": {
+          "claim": {"type": "string", "minLength": 1},
+          "observed": {"type": "boolean"},
+          "evidence": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "generated_files": {"type": "array", "items": {"type": "string"}},
+    "test_output": {"type": "array", "items": {"type": "string"}},
+    "human_deviations": {"type": "array", "items": {"type": "string"}},
+    "reviewer": {"type": "string", "minLength": 1},
+    "result": {"enum": ["pass", "fail"]}
+  }
+}
+

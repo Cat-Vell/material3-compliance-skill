@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.gradle/
+**/build/
+**/.dart_tool/
+**/node_modules/
+**/dist/

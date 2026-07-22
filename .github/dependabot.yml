@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/skills/material3-design/assets/templates/compose-core"
+    schedule:
+      interval: "monthly"
+    labels: ["dependencies", "template-compose"]
+  - package-ecosystem: "pub"
+    directory: "/skills/material3-design/assets/templates/flutter-core"
+    schedule:
+      interval: "monthly"
+    labels: ["dependencies", "template-flutter"]
+  - package-ecosystem: "npm"
+    directory: "/skills/material3-design/assets/templates/web-core"
+    schedule:
+      interval: "monthly"
+    labels: ["dependencies", "template-web"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    labels: ["dependencies", "ci"]

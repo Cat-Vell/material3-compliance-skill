@@ -1,0 +1,17 @@
+{
+  "id": "compose-adaptive-shell",
+  "mode": "build",
+  "platform": "compose",
+  "task": "scaffold",
+  "input_evidence": ["Three top-level destinations", "compact, medium, expanded and IME contexts"],
+  "required_assertions": ["one destination model", "navigation choice uses window and IA", "selection survives layout changes", "Scaffold padding is consumed once", "predictive back risk is stated"],
+  "critical_assertion_indexes": [0, 1, 2, 3],
+  "forbidden_claims": ["tablet always means drawer", "one expanded screenshot proves adaptive compliance", "invented Navigation 3 API"],
+  "required_files": ["adaptive shell", "state continuity test"],
+  "dimensions": ["D04", "D05", "D06", "D08", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["window decision inputs", "inset/IME handling", "resize continuity"],
+  "severity_requirements": ["lost work on resize is release-blocking"]
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "run_id": "example-only-not-evidence",
+  "fixture_id": "compose-theme",
+  "fixture_sha256": "replace-with-sha256-of-evals-fixtures-01-compose-theme-json",
+  "git_revision": "0000000000000000000000000000000000000000",
+  "working_tree_clean": true,
+  "host": "codex",
+  "host_version": "example-host-version",
+  "model": "example-model",
+  "started_at": "2026-07-22T12:00:00Z",
+  "completed_at": "2026-07-22T12:10:00Z",
+  "prompt_artifact": "evals/runs/artifacts/example/prompt.md",
+  "response_artifact": "evals/runs/artifacts/example/response.md",
+  "assertions": [],
+  "forbidden_claims": [],
+  "generated_files": [],
+  "test_output": [],
+  "human_deviations": [
+    "EXAMPLE ONLY. Do not copy into evals/runs/ until fixture digests, assertion arrays, and a real Git revision are filled."
+  ],
+  "reviewer": "example reviewer",
+  "result": "fail"
+}

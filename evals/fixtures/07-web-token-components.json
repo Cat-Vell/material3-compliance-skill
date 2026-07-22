@@ -1,0 +1,17 @@
+{
+  "id": "web-token-components",
+  "mode": "build",
+  "platform": "web",
+  "task": "component",
+  "input_evidence": ["SSR-capable web app", "button, field, dialog and responsive collection jobs"],
+  "required_assertions": ["semantic CSS tokens and light/dark schemes", "official elements are verified individually", "native/custom fallbacks have complete semantics", "SSR upgrade and focus risks are stated", "a11y smoke plus manual checks"],
+  "critical_assertion_indexes": [0, 1, 2, 4],
+  "forbidden_claims": ["all Material components exist on Web", "ARIA alone makes a div a button", "automated scan certifies WCAG"],
+  "required_files": ["token CSS", "semantic component markup", "tests"],
+  "dimensions": ["D01", "D03", "D05", "D06", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["element export source/date", "keyboard/focus and SSR evidence"],
+  "severity_requirements": ["invented custom element is release-blocking"]
+}

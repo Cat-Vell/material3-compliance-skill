@@ -1,0 +1,4 @@
+interface:
+  display_name: "Material 3 Build + Audit"
+  short_description: "Build and audit production Material 3 UI"
+  default_prompt: "Use $material3-design to build this interface with production-ready Material 3 patterns and report verification and compliance risks."

@@ -1,0 +1,12 @@
+{
+  "label": "tested baseline",
+  "source_verified": "2026-07-22",
+  "release_verification_required": true,
+  "local_verification": "JDK 17.0.19, Gradle 9.5.0, AGP 9.3.0, API 37: testDebugUnitTest and assembleDebug passed 2026-07-22",
+  "jdk": "17",
+  "android_gradle_plugin": "9.3.0",
+  "gradle": "9.5.0",
+  "compose_compiler_plugin": "2.3.21",
+  "compose_bom": "2026.06.00",
+  "compile_sdk": 37
+}

@@ -1,0 +1,17 @@
+{
+  "id": "web-expressive-refusal",
+  "mode": "build",
+  "platform": "web",
+  "task": "component",
+  "input_evidence": ["Request for exact Compose Expressive split button, loading indicator, toolbar and motion parity"],
+  "required_assertions": ["full parity is refused", "supported token layer is separated", "verified official elements are listed", "accessible native/custom fallback is offered where credible", "unsupported behavior is not silently approximated"],
+  "critical_assertion_indexes": [0, 2, 4],
+  "forbidden_claims": ["complete M3 Expressive Web parity", "invented md-split-button", "maintenance status omitted"],
+  "required_files": [],
+  "dimensions": ["D03", "D06", "D09", "D10"],
+  "expected_unknown": [],
+  "expected_na": ["D04: no navigation is in the declared request"],
+  "expected_release_gates": [],
+  "evidence_requirements": ["S-M3-WEB and S-WEB-REPO date", "fallback behavior contract"],
+  "severity_requirements": ["invented parity is a critical assertion failure"]
+}

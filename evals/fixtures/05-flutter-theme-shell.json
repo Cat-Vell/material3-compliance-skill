@@ -1,0 +1,17 @@
+{
+  "id": "flutter-theme-shell",
+  "mode": "build",
+  "platform": "flutter",
+  "task": "scaffold",
+  "input_evidence": ["Flutter app", "brand seed", "three destinations", "phone and desktop windows"],
+  "required_assertions": ["paired ColorScheme themes", "official M3 widgets", "LayoutBuilder or equivalent constraints", "bar/rail state continuity", "analyze and widget-test commands"],
+  "critical_assertion_indexes": [0, 1, 3, 4],
+  "forbidden_claims": ["guaranteed Compose Expressive parity", "community dependency without review", "device-label-only routing"],
+  "required_files": ["ThemeData file", "responsive shell", "widget tests"],
+  "dimensions": ["D01", "D04", "D05", "D06", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["actual Flutter SDK", "light/dark and breakpoint tests"],
+  "severity_requirements": ["invented widget is release-blocking"]
+}

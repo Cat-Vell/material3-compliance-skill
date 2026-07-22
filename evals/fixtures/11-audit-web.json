@@ -1,0 +1,17 @@
+{
+  "id": "audit-web",
+  "mode": "audit",
+  "platform": "web",
+  "task": "audit",
+  "input_evidence": ["CSS tokens", "MDC imports", "custom clickable divs", "desktop screenshot", "no SSR/mobile/keyboard evidence"],
+  "required_assertions": ["MDC imports map to D10", "clickable div maps to D06", "mobile/SSR/keyboard are Unknown", "Web parity claim is rejected", "release gates override average"],
+  "critical_assertion_indexes": [0, 1, 2, 3, 4],
+  "forbidden_claims": ["desktop screenshot proves responsive", "custom div is accessible by appearance", "MDC is Material 3", "full Expressive parity"],
+  "required_files": [],
+  "dimensions": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"],
+  "expected_unknown": ["D05", "D06", "D08"],
+  "expected_na": [],
+  "expected_release_gates": ["keyboard or assistive-technology users may be blocked", "implementation claims an unavailable or unverified API/component"],
+  "evidence_requirements": ["selector/import line", "missing-context list"],
+  "severity_requirements": ["interactive div and MDC migration are Must-fix"]
+}

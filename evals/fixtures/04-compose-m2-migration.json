@@ -1,0 +1,17 @@
+{
+  "id": "compose-m2-migration",
+  "mode": "build",
+  "platform": "compose",
+  "task": "migrate",
+  "input_evidence": ["M2 imports", "M2 theme", "legacy bottom navigation", "existing UI tests"],
+  "required_assertions": ["inventory and bridge are explicit", "theme roles are mapped", "component semantics are reviewed", "old consumers are searched", "rollback boundary exists"],
+  "critical_assertion_indexes": [0, 1, 3, 4],
+  "forbidden_claims": ["migration is only import replacement", "all defaults are visually identical", "complete while undocumented M2 consumers remain"],
+  "required_files": ["M3 theme", "migrated vertical slice", "updated tests"],
+  "dimensions": ["D01", "D03", "D04", "D06", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["scanner before/after", "interoperability exceptions"],
+  "severity_requirements": ["unverified API replacement is release-blocking"]
+}

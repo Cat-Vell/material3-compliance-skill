@@ -1,0 +1,8 @@
+{
+  "name": "material3-design",
+  "version": "0.1.0",
+  "description": "Design, build, migrate, and audit Material 3 interfaces across Compose, Flutter, and Web.",
+  "author": {
+    "name": "Material 3 Build + Audit contributors"
+  }
+}

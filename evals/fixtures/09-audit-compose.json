@@ -1,0 +1,17 @@
+{
+  "id": "audit-compose",
+  "mode": "audit",
+  "platform": "compose",
+  "task": "audit",
+  "input_evidence": ["single light-theme phone screenshot", "Compose source with hard-coded colors and M2 import", "no tests or larger windows"],
+  "required_assertions": ["D01-D10 table", "M2 import and literals are evidence-backed findings", "dark/Dynamic/adaptive/accessibility evidence remains Unknown", "release gates precede verdict", "Must-fix is separated"],
+  "critical_assertion_indexes": [0, 1, 2, 3],
+  "forbidden_claims": ["dark theme passes", "responsive behavior passes", "screen reader support inferred", "high score with hidden Unknown"],
+  "required_files": [],
+  "dimensions": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"],
+  "expected_unknown": ["D05", "D06", "D09"],
+  "expected_na": [],
+  "expected_release_gates": ["evidence is insufficient for a critical release criterion", "unverified or legacy platform implementation claim"],
+  "evidence_requirements": ["file/line for code findings", "scope and missing evidence"],
+  "severity_requirements": ["M2 implementation path is Must-fix"]
+}

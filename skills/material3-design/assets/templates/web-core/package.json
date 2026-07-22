@@ -1,0 +1,13 @@
+{
+  "name": "material3-web-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/build.test.mjs && node scripts/a11y-smoke.mjs src/index.html"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}

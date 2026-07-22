@@ -1,0 +1,17 @@
+{
+  "id": "flutter-component-migration",
+  "mode": "build",
+  "platform": "flutter",
+  "task": "migrate",
+  "input_evidence": ["Legacy BottomNavigationBar", "old theme defaults", "form flow"],
+  "required_assertions": ["NavigationBar migration preserves destination meaning", "theme default changes are reviewed", "form semantics and recovery remain", "format/analyze/test verification"],
+  "critical_assertion_indexes": [0, 2, 3],
+  "forbidden_claims": ["useMaterial3 alone completes migration", "goldens are unnecessary", "all old widgets update automatically"],
+  "required_files": ["migrated navigation", "theme update", "tests"],
+  "dimensions": ["D01", "D03", "D04", "D06", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["old/new widget inventory", "selected-state continuity"],
+  "severity_requirements": ["lost destination state is must-fix"]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "design-build-handoff",
+  "mode": "design-build",
+  "platform": "compose",
+  "task": "scaffold",
+  "input_evidence": ["Product brief for a list-detail inbox", "brand intent", "four destinations", "phone, foldable and desktop windows"],
+  "required_assertions": ["Design phase contains no code", "theme/components/states/adaptive behavior are specified", "handoff names tokens and recipe IDs", "Build phase uses supplied decisions", "verification and M3 Compliance are included"],
+  "critical_assertion_indexes": [0, 1, 3, 4],
+  "forbidden_claims": ["design phase invents implementation version", "build ignores handoff", "foldable behavior inferred without test plan"],
+  "required_files": ["theme", "adaptive list-detail shell", "state and semantics tests"],
+  "dimensions": ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"],
+  "expected_unknown": [],
+  "expected_na": [],
+  "expected_release_gates": [],
+  "evidence_requirements": ["decision-to-file trace", "source/date for volatile APIs", "test matrix"],
+  "severity_requirements": ["lost selection across pane change is release-blocking"]
+}

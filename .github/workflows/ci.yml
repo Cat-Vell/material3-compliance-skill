@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Skill, structure, scanner, and fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+      - name: Behavior fixture schema
+        run: python tests/validate_fixtures.py
+      - name: Archived behavior run-record schema
+        run: python tests/validate_eval_runs.py
+      - name: Portable skill and repository validation
+        run: python tests/validate_repository.py
+
+  behavior-release-gate:
+    name: Revision-anchored host behavior evidence
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Require complete Codex and Claude fixture runs
+        run: python tests/validate_eval_runs.py --require-host codex --require-host claude --require-all-fixtures
+
+  compose-core:
+    name: Compose core build and unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/material3-design/assets/templates/compose-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK baseline
+        run: sdkmanager --channel=3 "platforms;android-37.0" "build-tools;36.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.5.0"
+      - name: Build and test stable core
+        run: gradle testDebugUnitTest assembleDebug --stacktrace
+
+  flutter-core:
+    name: Flutter core analysis and tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/material3-design/assets/templates/flutter-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.1"
+          channel: stable
+          cache: true
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: flutter analyze
+      - run: flutter test
+
+  web-core:
+    name: Web core clean build, tests, and a11y smoke
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/material3-design/assets/templates/web-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: skills/material3-design/assets/templates/web-core/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
