@@ -56,7 +56,9 @@ hosted CI or host behavior passes.
 |---|---|
 | `skills/material3-design/SKILL.md` | Portable runtime router |
 | `skills/material3-design/agents/openai.yaml` | Codex metadata |
-| `skills/material3-design/scripts/m3_scan.py` | Heuristic scanner |
+| `skills/material3-design/scripts/m3_scan.py` | Heuristic scanner CLI |
+| `skills/material3-design/scripts/m3_engine/` | Scanner engine package |
+| `skills/material3-design/scripts/rules/` | Per-platform rule modules + fixtures |
 | `skills/material3-design/references/*.md` | Canonical guidance set |
 | `skills/material3-design/assets/templates/compose-core/**` | Stable Compose baseline sources |
 | `skills/material3-design/assets/templates/flutter-core/**` | Stable Flutter baseline sources |

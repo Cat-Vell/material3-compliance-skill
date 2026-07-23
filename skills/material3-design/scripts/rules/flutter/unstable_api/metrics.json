@@ -1,0 +1,10 @@
+{
+  "rule_id": "M3-004",
+  "platform": "flutter",
+  "true_positives": 1,
+  "false_positives": 0,
+  "false_negatives": 0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "fixture_count": 3
+}

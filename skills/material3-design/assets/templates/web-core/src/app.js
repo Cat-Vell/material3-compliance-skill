@@ -29,9 +29,7 @@ function render(destination, announce = false) {
   status.textContent = announce ? `${title.textContent} loaded` : '';
 }
 
-for (const link of links) {
-  link.addEventListener('click', () => render(link.hash.slice(1), true));
-}
+window.addEventListener('hashchange', () => render(location.hash.slice(1), true));
 
 const themeToggle = document.querySelector('#theme-toggle');
 themeToggle.addEventListener('click', () => {

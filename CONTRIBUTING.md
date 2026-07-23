@@ -9,15 +9,15 @@ Change facts in their owner first:
 | Change | Owner |
 |---|---|
 | Runtime routing/output | `skills/material3-design/SKILL.md` |
-| Source/API status | `references/source-registry.md` |
-| Shared theme/style semantics | `references/foundations-and-styles.md` |
-| State/accessibility semantics | `references/interaction-and-accessibility.md` |
-| Component jobs/mappings | `references/component-catalog.md` |
-| Platform code recipes | `references/compose.md`, `flutter.md`, or `web.md` |
-| Audit IDs/scoring/gates | `references/audit-framework.md` |
-| Scanner rules | `scripts/m3_scan.py` plus unit tests |
+| Source/API status | `references/shared/source-registry.md` |
+| Shared theme/style semantics | `references/shared/foundations-and-styles.md` |
+| State/accessibility semantics | `references/shared/interaction-and-accessibility.md` |
+| Component jobs/mappings | `references/shared/component-catalog.md` |
+| Platform code recipes | `references/compose/compose.md`, `flutter/flutter.md`, or `web/web.md` |
+| Audit IDs/scoring/gates | `references/audit/audit-framework.md` |
+| Scanner rules | `scripts/m3_engine/` + `scripts/rules/` plus unit tests |
 
-Follow [content-ownership.md](skills/material3-design/references/content-ownership.md); do not duplicate a canonical fact in multiple references.
+Follow [content-ownership.md](skills/material3-design/references/shared/content-ownership.md); do not duplicate a canonical fact in multiple references.
 
 ## Source policy
 

@@ -33,9 +33,27 @@ Produce theme decisions, hierarchy, component choices, states, responsive behavi
 
 ### Build
 
-Infer the platform from supplied files. Ask only when it cannot be determined. Route the task to `component`, `theme`, `layout`, `scaffold`, or `migrate`. Adapt an asset under [assets/templates](assets/templates) when it fits; otherwise produce integration-ready files. Read the canonical shared owner for every requested concern, [component-catalog.md](references/component-catalog.md) for component work, and exactly one platform guide. Do not implement from the catalog mapping alone.
+Infer the platform from supplied files. Ask only when it cannot be determined. Route the task to `component`, `theme`, `layout`, `scaffold`, or `migrate`. When a golden-path recipe under [references/recipes](references/recipes) matches, read it first, then the shared owners and exactly one platform guide. Adapt an asset under [assets/templates](assets/templates) when it fits; otherwise produce integration-ready files. Read the canonical shared owner for every requested concern and [component-catalog.md](references/shared/component-catalog.md) for component work. Do not implement from the catalog mapping alone.
 
-Return this contract:
+Select an output profile (below). For `verify-current`, cite the checked first-party source and date. For `unsupported/custom`, explain the accessible fallback or refuse the unsupported parity claim.
+
+### Audit
+
+Read [audit-framework.md](references/audit/audit-framework.md). Use `D01`–`D10`, evidence references, and release gates. Use `U` for missing evidence. Use `n/a` only when a dimension is genuinely outside the declared scope and include a reason. Never infer dark theme, Dynamic Color, accessibility, responsive behavior, or hidden states. Audit always uses the Evidence profile.
+
+## Output profiles
+
+Use the smallest output profile that preserves correctness.
+
+**Lite** — single component, snippet, or low-risk edit:
+
+```text
+Implementation: [files/code]
+Key accessibility/state notes: [...]
+Verification note: [...]
+```
+
+**Standard** — real repo, multi-file, theme, layout, or scaffold:
 
 ```text
 Platform: [Compose | Flutter | Web]
@@ -48,28 +66,51 @@ Verification: [tests/checks]
 M3 Compliance: [...]
 ```
 
-For `verify-current`, cite the checked first-party source and date. For `unsupported/custom`, explain the accessible fallback or refuse the unsupported parity claim.
+**Evidence** — Audit, migrate, experimental API, or release judgment:
 
-### Audit
+```text
+Scope: [...]
+Observed evidence: [...]
+Unknowns: [...]
+Findings or Implementation: [...]
+API/source status: [...]
+Verification results: [...]
+Release gates: [...]
+Must-fix: [...]
+Nice-to-have: [...]
+```
 
-Read [audit-framework.md](references/audit-framework.md). Use `D01`–`D10`, evidence references, and release gates. Use `U` for missing evidence. Use `n/a` only when a dimension is genuinely outside the declared scope and include a reason. Never infer dark theme, Dynamic Color, accessibility, responsive behavior, or hidden states.
+Selection rules: `migrate` and Audit → Evidence; multi-file theme/layout/scaffold → Standard; single-component or snippet → Lite unless a volatile or experimental API appears → upgrade to Standard or Evidence.
+
+## Delivery discipline
+
+- Lead with the requested artifact or verdict.
+- Follow with only the evidence required by the selected output profile.
+- Do not narrate internal routing unless ambiguity affects the result.
+- Preserve the project architecture, version catalog, routing, and test conventions.
+- Hoist durable state; preserve selection, input, scroll, focus, and work across resize and navigation changes.
+- Include loading/error/empty recovery for data-driven UI and validation for forms.
+- Add focused semantics/state/adaptive tests for changed behavior.
+- Run `python scripts/m3_scan.py <path> --platform auto --format markdown` when repository files are available. Treat findings as heuristic evidence, not certification.
+- End Design and Build with the compact M3 Compliance summary from the selected profile. End Audit with scorecard, gates, prioritized findings, then that summary.
 
 ## Routing map
 
 | Need | Read |
 |---|---|
-| Ownership and conflict resolution | [content-ownership.md](references/content-ownership.md) |
-| Official sources and support labels | [source-registry.md](references/source-registry.md) |
-| Tokens, theme, color, type, shape, elevation, motion | [foundations-and-styles.md](references/foundations-and-styles.md) |
-| States, forms, content, and accessibility | [interaction-and-accessibility.md](references/interaction-and-accessibility.md) |
-| Component semantics and cross-platform mapping | [component-catalog.md](references/component-catalog.md) |
-| Responsive layouts, panes, insets, IME, foldables | [layout-and-responsive.md](references/layout-and-responsive.md) |
-| Navigation, back, deep links | [navigation-patterns.md](references/navigation-patterns.md) |
-| Compose implementation | [compose.md](references/compose.md) |
-| Flutter implementation | [flutter.md](references/flutter.md) |
-| Web implementation and refusal gates | [web.md](references/web.md) |
-| M2/MDC/widget migration | [migrations.md](references/migrations.md) |
-| Audit score and verdict | [audit-framework.md](references/audit-framework.md) |
+| Ownership and conflict resolution | [content-ownership.md](references/shared/content-ownership.md) |
+| Official sources and support labels | [source-registry.md](references/shared/source-registry.md) |
+| Tokens, theme, color, type, shape, elevation, motion | [foundations-and-styles.md](references/shared/foundations-and-styles.md) |
+| States, forms, content, and accessibility | [interaction-and-accessibility.md](references/shared/interaction-and-accessibility.md) |
+| Component semantics and cross-platform mapping | [component-catalog.md](references/shared/component-catalog.md) |
+| Responsive layouts, panes, insets, IME, foldables | [layout-and-responsive.md](references/shared/layout-and-responsive.md) |
+| Navigation, back, deep links | [navigation-patterns.md](references/shared/navigation-patterns.md) |
+| Golden-path task sequences | [recipes/](references/recipes/) |
+| Compose implementation | [compose.md](references/compose/compose.md) |
+| Flutter implementation | [flutter.md](references/flutter/flutter.md) |
+| Web implementation and refusal gates | [web.md](references/web/web.md) |
+| M2/MDC/widget migration | [migrations.md](references/shared/migrations.md) |
+| Audit score and verdict | [audit-framework.md](references/audit/audit-framework.md) |
 
 ## Platform tiers
 
@@ -79,18 +120,9 @@ Read [audit-framework.md](references/audit-framework.md). Use `D01`–`D10`, evi
 | Flutter | Production secondary | Official Material widgets; disclose incomplete Expressive parity |
 | Web | Limited | Verified `@material/web` element or accessible native/custom fallback; refuse full Expressive parity |
 
-## Delivery discipline
-
-- Preserve the project architecture, version catalog, routing, and test conventions.
-- Hoist durable state; preserve selection, input, scroll, focus, and work across resize and navigation changes.
-- Include loading/error/empty recovery for data-driven UI and validation for forms.
-- Add focused semantics/state/adaptive tests for changed behavior.
-- Run `python scripts/m3_scan.py <path> --platform auto --format markdown` when repository files are available. Treat findings as heuristic evidence, not certification.
-- End Design and Build work with the compact M3 Compliance summary from the Build contract. End Audit work with its scorecard, gates, prioritized findings, then that summary.
-
 ## Accuracy gates
 
-- Check source IDs in [source-registry.md](references/source-registry.md) before platform claims.
+- Check source IDs in [source-registry.md](references/shared/source-registry.md) before platform claims.
 - Treat dates and tested baselines as evidence, never as “latest.”
 - Keep volatile or experimental examples outside stable templates.
 - Do not recommend a community dependency unless the user requests alternatives and its maintenance, license, and risk are verified and disclosed.

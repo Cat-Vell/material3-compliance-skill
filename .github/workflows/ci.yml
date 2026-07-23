@@ -24,8 +24,16 @@ jobs:
         run: python tests/validate_fixtures.py
       - name: Archived behavior run-record schema
         run: python tests/validate_eval_runs.py
+      - name: Trigger case schema
+        run: python evals/trigger/score_trigger_runs.py
+      - name: Behavior run matrix dry-run
+        run: python evals/generate_run_matrix.py --dry-run
+      - name: Benchmark placeholder refresh
+        run: python evals/benchmark_report.py
       - name: Portable skill and repository validation
         run: python tests/validate_repository.py
+      - name: Scanner fixture benchmark
+        run: python skills/material3-design/scripts/m3_engine/benchmark.py
 
   behavior-release-gate:
     name: Revision-anchored host behavior evidence

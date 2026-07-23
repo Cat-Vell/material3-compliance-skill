@@ -45,6 +45,31 @@ class ScannerTests(unittest.TestCase):
         self.assertEqual(0, code)
         self.assertNotIn('M3-002', {item['rule_id'] for item in report['findings']})
 
+    def test_real_compose_icon_button_null_description_is_reported(self) -> None:
+        code, report = self.scan({
+            'Screen.kt': (
+                '@Composable fun S() {\n'
+                '  IconButton(onClick = {}) {\n'
+                '    Icon(Icons.Default.Add, contentDescription = null)\n'
+                '  }\n'
+                '  BoxWithConstraints {}\n'
+                '}\n'
+            ),
+        }, 'compose')
+        self.assertEqual(0, code)
+        self.assertIn('M3-009', {item['rule_id'] for item in report['findings']})
+
+    def test_unrelated_theme_symbol_does_not_hide_missing_boundary(self) -> None:
+        code, report = self.scan({
+            'Main.kt': (
+                'fun main() { setContent { Text("Hi") } }\n'
+                'fun PreviewTheme() = Unit\n'
+                'fun layout() { BoxWithConstraints {} }\n'
+            ),
+        }, 'compose')
+        self.assertEqual(1, code)
+        self.assertIn('M3-003', {item['rule_id'] for item in report['findings']})
+
     def test_web_mdc_and_unverified_element_block(self) -> None:
         code, report = self.scan({
             'index.html': '<!doctype html><main><md-split-button></md-split-button></main>',
@@ -60,6 +85,17 @@ class ScannerTests(unittest.TestCase):
             self.assertEqual(2, m3_scan.main(['missing-path', '--format', 'json']))
         self.assertIn('path does not exist', error.getvalue())
 
+
+    def test_invalid_config_shape_returns_two(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'Main.kt').write_text('fun layout() { BoxWithConstraints {} }', encoding='utf-8')
+            (root / '.m3scan.json').write_text('[]', encoding='utf-8')
+            error = StringIO()
+            with redirect_stderr(error):
+                code = m3_scan.main([str(root), '--platform', 'compose', '--format', 'json'])
+        self.assertEqual(2, code)
+        self.assertIn('suppression config must be a JSON object', error.getvalue())
 
 if __name__ == '__main__':
     unittest.main()

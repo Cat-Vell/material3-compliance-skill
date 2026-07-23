@@ -1,137 +1,125 @@
 # Material 3 Build + Audit Skill
 
-A portable AI-assistant skill for designing, building, migrating, and auditing production-oriented Material 3 interfaces.
+Routes Material 3 design, build, migration, and audit work through platform-honest contracts, golden-path recipes, and heuristic scan evidence — so outputs stay integration-ready without claiming host-behavior certificates that are not yet archived.
 
-It combines implementation workflows with an evidence contract: Compose receives full-depth guidance, Flutter receives production-focused support, and Web uses verified Material Web elements plus accessible native/custom fallbacks without claiming feature parity.
+Compared with asking a model directly: this skill forces semantic tokens, state/accessibility coverage, adaptive window context, API status honesty (`stable` / `verify-current` / `unsupported/custom`), and risk-matched output profiles (Lite / Standard / Evidence).
 
-## Capabilities
+## Install
 
-| Mode | Outcome |
-|---|---|
-| Design | Theme, hierarchy, component, state, accessibility, responsive, and handoff decisions; no code unless requested |
-| Build | Integration-ready `component`, `theme`, `layout`, `scaffold`, or `migrate` work with API status and verification |
-| Audit | `D01`–`D10` evidence scorecard, `U`/reasoned `n/a`, release gates, and prioritized fixes |
+From this repository root (Cursor):
 
-Build coverage includes:
-
-- 38 component families with Compose, Flutter, and Web mappings
-- complete token/theme strategy for light, dark, and platform-appropriate Dynamic/static paths
-- forms, state hoisting, validation, loading/error/empty states, focus, semantics, and tests
-- adaptive navigation, canonical layouts, insets, IME, foldables, live resize, and state continuity
-- Compose M2, Flutter older-Material, and Web MDC migrations
-- locally build-tested core baselines for Compose, Flutter, and Web
-- a dependency-light heuristic scanner with deterministic Markdown/JSON output
-- twelve structured behavior-evaluation fixtures
-
-## Platform tiers
-
-| Platform | Support | Honesty boundary |
-|---|---|---|
-| Jetpack Compose | Primary/full depth | Stable APIs by default; Expressive, experimental, and Navigation 3 integration are verified per project |
-| Flutter | Secondary/production focused | Official widgets and ThemeData; no promise of Compose Expressive parity |
-| Web | Limited | Verified `@material/web` exports or accessible native/custom fallbacks; full Expressive parity is refused |
-
-## Install locally
-
-Copy or link `skills/material3-design` to the skill directory used by the assistant:
-
-```text
-$CODEX_HOME/skills/material3-design       # Codex installer-managed user skill
-$HOME/.agents/skills/material3-design     # Codex user authoring/discovery
-<repo>/.agents/skills/material3-design    # Codex repository scope
-~/.cursor/skills/material3-design
-~/.claude/skills/material3-design
+```powershell
+New-Item -ItemType Junction -Force -Path "$HOME\.cursor\skills\material3-design" -Target "$PWD\skills\material3-design"
 ```
 
-Keep the folder name `material3-design`. `CODEX_HOME` defaults to `~/.codex`; Codex also scans the documented `.agents/skills` authoring locations. After this repository is published, it can be installed with a compatible skill installer using the repository URL; no public owner or release is claimed by this working tree.
+Keep the folder name `material3-design`. Other hosts can link the same folder into their skill directory (`~/.codex/skills`, `~/.claude/skills`, `.agents/skills`).
 
-## Examples
+## Standard task entry points
 
-### Design
+```text
+$material3-design component — build a Material 3 Button / TextField / IconButton with states and a11y notes
+$material3-design theme — ship light/dark ColorScheme, type, and shapes (Dynamic Color gated)
+$material3-design layout — adaptive list-detail or pane layout from window context, not device labels
+$material3-design scaffold — adaptive app shell for 3–5 destinations with selection continuity
+$material3-design migrate — staged M2→M3 or MDC migration with inventory, bridge, and rollback
+$material3-design audit — score D01–D10, mark missing evidence U, separate Must-fix from Nice-to-have
+```
+
+**Design (no code yet)**
 
 ```text
 Use $material3-design to design a responsive list-detail inbox. Define theme roles, component jobs, states, navigation, accessibility, and the Design-to-Build handoff. Do not write code yet.
 ```
 
-### Build
+**Build**
 
 ```text
-Use $material3-design to build the Material 3 theme and adaptive app shell in this Compose project. Preserve its architecture, use stable APIs, add state/accessibility tests, run the scanner, and report the Build output contract.
+Use $material3-design to build the Material 3 theme and adaptive app shell in this Compose project. Preserve its architecture, use stable APIs, add state/accessibility tests, run the scanner, and report the Standard output profile.
 ```
 
-```text
-Use $material3-design to migrate this Flutter app from legacy bottom navigation to Material 3 while preserving destination state and testing light/dark and compact/expanded layouts.
-```
-
-```text
-Use $material3-design to implement these Web components. Verify each official Material Web element, use semantic native fallbacks for gaps, and refuse unsupported Expressive parity.
-```
-
-### Audit
+**Audit**
 
 ```text
 Use $material3-design in Audit mode on these screens and files. Score D01–D10, mark missing evidence U, justify every n/a, apply release gates, and separate Must-fix from Nice-to-have.
 ```
 
-## Scanner
+## Output shape (illustrative)
+
+Without the skill, a “make a Compose theme” request often returns a single light `ColorScheme` snippet and no dark/Dynamic Color/fallback path.
+
+With Lite/Standard profiles, the same request leads with the theme files, then states the API status, light/dark/dynamic/fallback paths, and a verification note — without narrating internal routing. Full contracts live in `skills/material3-design/SKILL.md`.
+
+## Benchmark
+
+Host-behavior results: [BENCHMARK.md](BENCHMARK.md) (generated from `evals/runs/`). **Archived host behavior runs: 0** — no with-skill / baseline comparison is claimed yet.
+
+| Metric | Without skill | With skill |
+|---|---:|---:|
+| Compile pass rate | — | — |
+| Critical assertion pass rate | — | — |
+| Forbidden / invented API claims | — | — |
+| Average token cost | — | — |
+
+Regenerate after archiving runs:
+
+```bash
+python evals/benchmark_report.py
+```
+
+### Scanner fixture benchmark
+
+Heuristic rules only — measured against packaged positive/negative/edge fixtures. Not a host-behavior or accessibility certificate.
+
+| Metric | Value |
+|---|---|
+| Rule modules | 23 (IDs `M3-001`–`M3-011` across Compose / Flutter / Web) |
+| Mean precision | 1.00 |
+| Mean recall | 1.00 |
+| Fixtures per module | 3 |
+| Archived host behavior runs | 0 |
 
 ```bash
 python skills/material3-design/scripts/m3_scan.py <path> --platform auto --format markdown
-python skills/material3-design/scripts/m3_scan.py <path> --platform compose --format json
+python skills/material3-design/scripts/m3_engine/benchmark.py
 ```
 
-The scanner returns rule ID, audit dimension, severity, confidence, file/line evidence, and remediation. Exit `0` means a completed scan without high-confidence blockers, `1` means blockers were found, and `2` means invalid input/configuration. It is heuristic evidence collection, not a compliance or WCAG certificate.
+Exit `0` = no high-confidence blockers; `1` = blockers found; `2` = invalid input. Full rule table: [docs/SCANNER.md](docs/SCANNER.md).
 
-## Repository map
+## Support levels
 
-```text
-.github/                 CI and dependency-update configuration
-.claude-plugin/          Claude plugin/marketplace metadata
-docs/                    maturity, capability, and release evidence chain
-docs/evidence/           local, hosted-CI, and fresh-install ledgers
-evals/fixtures/          twelve host-neutral behavior contracts
-evals/runs/              revision-anchored host execution records (currently empty)
-skills/material3-design/
-  SKILL.md               lean runtime router and contracts
-  references/            canonical shared and platform guidance
-  scripts/m3_scan.py     deterministic heuristic scanner
-  assets/templates/      Compose, Flutter, and Web core projects
-tests/                   structure, scanner, fixture, and run validation
-```
+Guidance is **covered** for three platforms; host-behavior is **verified** only where `evals/runs/` holds records (currently none).
 
-The runtime package contains only `SKILL.md`, agent metadata, references, the scanner, and reusable template assets. Repository/release documentation remains outside it. See the [release evidence chain](docs/RELEASE-EVIDENCE-CHAIN.md).
+| Platform | Support | Honesty boundary |
+|---|---|---|
+| Jetpack Compose | Primary / full depth (verified target) | Stable APIs by default; Expressive, experimental, and Navigation 3 are verified per project |
+| Flutter | Secondary / production-focused (preview until host runs exist) | Official widgets and ThemeData; no Compose Expressive parity promise |
+| Web | Limited / experimental until host runs exist | Verified `@material/web` exports or accessible native/custom fallbacks; full Expressive parity refused |
 
-## Verification
+## Verified hosts and versions
 
-Run the checks available in the current environment:
+| Surface | Status |
+|---|---|
+| Cursor / Codex / Claude host behavior | Not archived yet (`evals/runs/` empty) |
+| Compose template baseline | JDK 17, Gradle 9.5.0, AGP 9.3.0, Compose BOM `2026.06.00` (local pass 2026-07-22) |
+| Flutter template baseline | Flutter 3.44.1 / Dart 3.12.1 (local format/analyze/tests pass 2026-07-22) |
+| Web template baseline | Node 24.18.0 / npm 11.16.0 (local build/test pass 2026-07-22) |
 
-```bash
-python -m unittest discover -s tests -p "test_*.py"
-python tests/validate_fixtures.py
-python tests/validate_eval_runs.py
-python tests/validate_repository.py
-```
+Pinned versions are tested baselines, never “latest.”
 
-Template local checks used for the recorded baselines are:
+## Limitations
 
-```bash
-gradle testDebugUnitTest assembleDebug  # from compose-core
-dart format --output=none --set-exit-if-changed . && dart analyze && flutter test --no-pub  # flutter-core
-npm ci && npm run build && npm test  # web-core
-```
+- The scanner collects heuristic evidence; it does not certify Material 3 or WCAG compliance.
+- Automated scans and a11y smoke tests do not replace manual accessibility evidence.
+- Web support refuses full M3 / Expressive parity claims.
+- Flutter does not promise Compose Expressive feature parity.
+- Volatile APIs require a first-party source check before use.
+- Community dependencies are not recommended unless requested and risk-reviewed.
+- No public owner or marketplace release is claimed by this working tree.
 
-Pinned versions are tested baselines, never “latest.” Compose and Web checks passed locally on 2026-07-22. Flutter formatting, `dart analyze`, and two widget tests passed; the `flutter analyze` wrapper failed in the non-ASCII Windows path and remains a hosted-CI requirement. Release CI must rerun every platform path and record the evidence. See [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md).
+## Maintainer docs
 
-Fixture validation proves only that evaluation contracts are well formed. There are currently zero archived host run records, so this repository does not claim stable Codex, Claude, or Cursor behavior. See the [release evidence chain](docs/RELEASE-EVIDENCE-CHAIN.md), [capability matrix](docs/CAPABILITY-MATRIX.md), and [evaluation evidence guide](docs/EVALUATION-EVIDENCE.md).
+Evidence chain, capability matrix, evals, and release gates live under [docs/](docs/) — start with [RELEASE-EVIDENCE-CHAIN.md](docs/RELEASE-EVIDENCE-CHAIN.md) and [SCANNER.md](docs/SCANNER.md). Runtime package: `skills/material3-design/` (`SKILL.md`, `references/{shared,compose,flutter,web,audit,recipes}/`, `scripts/`, `assets/`). Behavior matrix tooling: `evals/generate_run_matrix.py`, `evals/benchmark_report.py`, `evals/trigger/`.
 
-## Accuracy model
+## License
 
-- Volatile claims use first-party URLs and last-verified dates in the [source registry](skills/material3-design/references/source-registry.md).
-- Shared facts have one canonical owner in the [content ownership map](skills/material3-design/references/content-ownership.md).
-- Audits never infer dark theme, Dynamic Color, accessibility, responsive behavior, or hidden states.
-- Automated scans and accessibility smoke tests do not replace manual evidence.
-- Community dependencies are not recommended without maintenance, license, support, and risk verification.
-
-## License and attribution
-
-Original repository content is released under the [MIT License](LICENSE). Material, Android, Flutter, Web, and third-party sources remain subject to their own terms; see [NOTICE.md](NOTICE.md).
+Original repository content is released under the [MIT License](LICENSE). Material and third-party sources remain under their own terms; see [NOTICE.md](NOTICE.md).

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from datetime import date as current_date
 from pathlib import Path
 
 
@@ -23,6 +24,9 @@ REQUIRED_FILES = [
     ROOT / '.github' / 'workflows' / 'ci.yml', ROOT / '.github' / 'dependabot.yml',
     ROOT / '.claude-plugin' / 'plugin.json', ROOT / '.claude-plugin' / 'marketplace.json',
     ROOT / 'evals' / 'README.md', ROOT / 'evals' / 'run-record.schema.json',
+    ROOT / 'evals' / 'generate_run_matrix.py', ROOT / 'evals' / 'benchmark_report.py',
+    ROOT / 'evals' / 'trigger' / 'cases.json', ROOT / 'evals' / 'trigger' / 'score_trigger_runs.py',
+    ROOT / 'BENCHMARK.md', ROOT / 'benchmark.json',
     ROOT / 'tests' / 'validate_fixtures.py', ROOT / 'tests' / 'validate_eval_runs.py',
     ROOT / 'tests' / 'test_eval_run_validator.py',
     ROOT / 'tests' / 'test_m3_scan.py', SKILL / 'SKILL.md', SKILL / 'agents' / 'openai.yaml',
@@ -30,10 +34,24 @@ REQUIRED_FILES = [
 ]
 
 REFERENCE_FILES = [
-    'audit-framework.md', 'component-catalog.md', 'compose.md', 'content-ownership.md',
-    'flutter.md', 'foundations-and-styles.md', 'interaction-and-accessibility.md',
-    'layout-and-responsive.md', 'material3-design-system.md', 'migrations.md',
-    'navigation-patterns.md', 'source-registry.md', 'web.md',
+    'audit/audit-framework.md',
+    'compose/compose.md',
+    'flutter/flutter.md',
+    'recipes/compose-adaptive-app-shell.md',
+    'recipes/compose-form.md',
+    'recipes/compose-list-detail.md',
+    'recipes/compose-m2-migration.md',
+    'recipes/compose-theme.md',
+    'shared/component-catalog.md',
+    'shared/content-ownership.md',
+    'shared/foundations-and-styles.md',
+    'shared/interaction-and-accessibility.md',
+    'shared/layout-and-responsive.md',
+    'shared/material3-design-system.md',
+    'shared/migrations.md',
+    'shared/navigation-patterns.md',
+    'shared/source-registry.md',
+    'web/web.md',
 ]
 
 TEMPLATE_FILES = {
@@ -131,7 +149,7 @@ def validate_markdown(errors: list[str]) -> None:
 
 
 def validate_sources(errors: list[str]) -> None:
-    text = (REFERENCES / 'source-registry.md').read_text(encoding='utf-8')
+    text = (REFERENCES / 'shared' / 'source-registry.md').read_text(encoding='utf-8')
     rows = re.findall(r'^\| (S-[A-Z0-9-]+) \| ([^|]+) \| ([^|]+) \| (https://[^ ]+) \| ([^|]+) \| (\d{4}-\d{2}-\d{2}) \|$', text, flags=re.MULTILINE)
     ids = [row[0] for row in rows]
     if len(rows) < 15:
@@ -142,14 +160,14 @@ def validate_sources(errors: list[str]) -> None:
     for source_id, _platform, _topic, url, status, date in rows:
         if status.strip() not in allowed:
             errors.append(f'{source_id}: invalid support status {status.strip()}')
-        if date > '2026-07-22':
+        if date > current_date.today().isoformat():
             errors.append(f'{source_id}: future verification date {date}')
         if not any(host in url for host in ('m3.material.io', 'developer.android.com', 'docs.flutter.dev', 'github.com/material-components/material-web', 'w3.org', 'kotlinlang.org', 'nodejs.org')):
             errors.append(f'{source_id}: source is not in the first-party allowlist: {url}')
 
 
 def validate_catalog(errors: list[str]) -> None:
-    text = (REFERENCES / 'component-catalog.md').read_text(encoding='utf-8')
+    text = (REFERENCES / 'shared' / 'component-catalog.md').read_text(encoding='utf-8')
     rows = re.findall(r'^\| C(\d{2}) ([^\n]+)$', text, flags=re.MULTILINE)
     numbers = [int(number) for number, _ in rows]
     if numbers != list(range(1, 39)):
@@ -164,7 +182,7 @@ def validate_catalog(errors: list[str]) -> None:
 
 
 def validate_audit_and_scanner(errors: list[str]) -> None:
-    audit = (REFERENCES / 'audit-framework.md').read_text(encoding='utf-8')
+    audit = (REFERENCES / 'audit' / 'audit-framework.md').read_text(encoding='utf-8')
     dimensions = re.findall(r'^### (D\d{2})\.', audit, flags=re.MULTILINE)
     expected = [f'D{number:02d}' for number in range(1, 11)]
     if dimensions != expected:
@@ -173,14 +191,22 @@ def validate_audit_and_scanner(errors: list[str]) -> None:
                    '**Coverage:**', '### Must-fix', '### Nice-to-have'):
         if phrase.lower() not in audit.lower():
             errors.append(f'missing audit contract phrase: {phrase}')
-    scanner = (SKILL / 'scripts' / 'm3_scan.py').read_text(encoding='utf-8')
+    rules_root = SKILL / 'scripts' / 'rules'
+    scanner_text = '\n'.join(
+        path.read_text(encoding='utf-8')
+        for path in sorted(rules_root.rglob('__init__.py'))
+        if path.parent.name not in {'_shared', 'compose', 'flutter', 'web', 'rules'}
+    )
+    scanner_text += (SKILL / 'scripts' / 'm3_scan.py').read_text(encoding='utf-8')
     for number in range(1, 12):
         rule = f'M3-{number:03d}'
-        if rule not in scanner:
+        if rule not in scanner_text:
             errors.append(f'missing scanner rule ID: {rule}')
     for dimension in ('D01', 'D04', 'D05', 'D06', 'D09', 'D10'):
-        if dimension not in scanner:
+        if dimension not in scanner_text:
             errors.append(f'scanner does not reference audit dimension: {dimension}')
+    if not (SKILL / 'scripts' / 'm3_engine' / 'engine.py').is_file():
+        errors.append('missing scanner engine package scripts/m3_engine/engine.py')
 
 
 def validate_templates_and_metadata(errors: list[str]) -> None:

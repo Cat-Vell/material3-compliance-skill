@@ -21,7 +21,7 @@ class EvalRunValidatorTests(unittest.TestCase):
         self.fixture = json.loads(self.fixture_path.read_text(encoding="utf-8"))
         critical = set(self.fixture["critical_assertion_indexes"])
         self.run = {
-            "schema_version": 1,
+            "schema_version": 2,
             "run_id": "test-codex-compose-theme",
             "fixture_id": self.fixture["id"],
             "fixture_sha256": hashlib.sha256(self.fixture_path.read_bytes()).hexdigest(),
@@ -30,6 +30,13 @@ class EvalRunValidatorTests(unittest.TestCase):
             "host": "codex",
             "host_version": "test-host",
             "model": "test-model",
+            "condition": "with-skill",
+            "repetition": 1,
+            "metrics": {
+                "input_tokens": 100,
+                "output_tokens": 200,
+                "duration_seconds": 12.5,
+            },
             "started_at": "2026-07-22T12:00:00Z",
             "completed_at": "2026-07-22T12:05:00Z",
             "prompt_artifact": "README.md",
@@ -66,6 +73,16 @@ class EvalRunValidatorTests(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertEqual(result, (len(self.fixture["required_assertions"]), len(self.fixture["required_assertions"])))
 
+    def test_accepts_null_metrics(self) -> None:
+        self.run["metrics"] = {
+            "input_tokens": None,
+            "output_tokens": None,
+            "duration_seconds": None,
+        }
+        errors, result = self.validate()
+        self.assertEqual(errors, [])
+        self.assertIsNotNone(result)
+
     def test_rejects_dirty_or_placeholder_revision(self) -> None:
         self.run["working_tree_clean"] = False
         self.run["git_revision"] = "WORKTREE"
@@ -79,6 +96,11 @@ class EvalRunValidatorTests(unittest.TestCase):
         errors, result = self.validate()
         self.assertEqual(result, (len(self.fixture["required_assertions"]) - 1, len(self.fixture["required_assertions"])))
         self.assertTrue(any("result must be fail" in error for error in errors))
+
+    def test_rejects_invalid_condition(self) -> None:
+        self.run["condition"] = "skill-on"
+        errors, _result = self.validate()
+        self.assertTrue(any("condition must be one of" in error for error in errors))
 
 
 if __name__ == "__main__":

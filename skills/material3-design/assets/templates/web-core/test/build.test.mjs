@@ -15,3 +15,9 @@ test('theme includes dark and reduced-motion paths', async () => {
   assert.match(css, /prefers-reduced-motion: reduce/);
   assert.match(css, /focus-visible/);
 });
+
+test('fragment history rerenders navigation state and content', async () => {
+  const script = await readFile(new URL('../src/app.js', import.meta.url), 'utf8');
+  assert.match(script, /addEventListener\('hashchange'/);
+  assert.match(script, /render\(location\.hash\.slice\(1\), true\)/);
+});
