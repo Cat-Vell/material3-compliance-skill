@@ -17,8 +17,9 @@ void main() {
     expect(find.byType(NavigationRail), findsNothing);
   });
 
-  testWidgets('uses a rail while preserving labeled destinations',
-      (tester) async {
+  testWidgets('uses a rail while preserving labeled destinations', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(900, 800);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);

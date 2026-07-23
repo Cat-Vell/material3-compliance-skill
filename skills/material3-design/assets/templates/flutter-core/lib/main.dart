@@ -31,17 +31,20 @@ class _AdaptiveShellState extends State<AdaptiveShell> {
 
   static const destinations = <NavigationDestination>[
     NavigationDestination(
-        icon: Icon(Icons.home_outlined),
-        selectedIcon: Icon(Icons.home),
-        label: 'Home'),
+      icon: Icon(Icons.home_outlined),
+      selectedIcon: Icon(Icons.home),
+      label: 'Home',
+    ),
     NavigationDestination(
-        icon: Icon(Icons.book_outlined),
-        selectedIcon: Icon(Icons.book),
-        label: 'Library'),
+      icon: Icon(Icons.book_outlined),
+      selectedIcon: Icon(Icons.book),
+      label: 'Library',
+    ),
     NavigationDestination(
-        icon: Icon(Icons.settings_outlined),
-        selectedIcon: Icon(Icons.settings),
-        label: 'Settings'),
+      icon: Icon(Icons.settings_outlined),
+      selectedIcon: Icon(Icons.settings),
+      label: 'Settings',
+    ),
   ];
 
   void select(int value) => setState(() => selectedIndex = value);
